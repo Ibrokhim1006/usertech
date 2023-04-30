@@ -1,6 +1,9 @@
 from pathlib import Path
 from datetime import timedelta
+from django.utils.translation import gettext as _
+
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,6 +23,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,7 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    
+
     # Library
+    'parler',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
@@ -40,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,7 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+# LANGUAGES = [
+#     ('en', _('English')),
+#     ('ru', _('Russian')),
+#     # ('zh', _('Chinese'))
+# ]
+
 
 TIME_ZONE = 'UTC'
 
@@ -122,6 +136,26 @@ USE_L10N = True
 
 USE_TZ = True
 
+# LANGUAGES = (
+#     ('ru', _('Russian')),
+#     ('en', _('English')),
+#     ('zh-hant', _('Chinese')),
+# )
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'ru',},
+        {'code': 'en',},
+        {'code': 'zh-hant',},
+    ),
+    'default': {
+        'fallbacks': 'ru',
+        'hide_untranslated': False,   # Default
+    }
+}
+# Locales available path
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale/')
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from django.utils.translation import gettext as _
 from django.contrib.auth import authenticate,logout
 from rest_framework import permissions, status
 from rest_framework.views import APIView
@@ -51,15 +52,11 @@ class MenuAllViews(APIView):
         serializer = MenuAllSerializers(objects_all,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):
-        name = request.data['name']
-        if name=='':
-            return Response({'error':"Fill in the information"},status=status.HTTP_406_NOT_ACCEPTABLE)
-        objects = Menu.objects.filter(name=name)
-        if len(objects) != 0:
-            return Response({'eror':"There is such a menu"},status=status.HTTP_406_NOT_ACCEPTABLE)
-        objects_create = Menu(name=name)
-        objects_create.save()  
-        return Response({'message':"Information saved"},status=status.HTTP_201_CREATED)
+        serializers = MenuChangeSerializers(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response({'message':_('Create Sucsess')},status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
 class MenuChangeViews(APIView):
     render_classes = [UserRenderers]
     perrmisson_class = [IsAuthenticated]    
@@ -67,12 +64,12 @@ class MenuChangeViews(APIView):
         serializers = MenuChangeSerializers(instance=Menu.objects.filter(id=pk)[0],data=request.data,partial =True)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return Response({'message':"success update"},status=status.HTTP_200_OK)
+            return Response({'message':_("success update")},status=status.HTTP_200_OK)
         return Response({'error':'update error data'},status=status.HTTP_400_BAD_REQUEST)
     def delete(self,request,pk,format=None):
         objects_get = Menu.objects.get(id=pk)
         objects_get.delete()
-        return Response({'message':"Delete success"},status=status.HTTP_200_OK)
+        return Response({'message':_("Delete success")},status=status.HTTP_200_OK)
 
 class SubMenuAllViews(APIView):
     render_classes = [UserRenderers]
@@ -85,7 +82,7 @@ class SubMenuAllViews(APIView):
         serializers = SubMenuCRUDSerializers(data=request.data)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return Response({'message':'Create Sucsess'},status=status.HTTP_201_CREATED)
+            return Response({'message':_('Create Sucsess')},status=status.HTTP_201_CREATED)
         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
 class SubMenuChangeViews(APIView):
     render_classes = [UserRenderers]
@@ -98,9 +95,9 @@ class SubMenuChangeViews(APIView):
         serializers = SubMenuCRUDSerializers(instance=SubMenu.objects.filter(id=pk)[0],data=request.data,partial =True)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
-            return Response({'message':"success update"},status=status.HTTP_200_OK)
-        return Response({'error':'update error data'},status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message':_("success update")},status=status.HTTP_200_OK)
+        return Response({'error':_('update error data')},status=status.HTTP_400_BAD_REQUEST)
     def delete(self,request,pk,format=None):
         objects_get = SubMenu.objects.get(id=pk)
         objects_get.delete()
-        return Response({'message':"Delete success"},status=status.HTTP_200_OK)
+        return Response({'message':_("Delete success")},status=status.HTTP_200_OK)

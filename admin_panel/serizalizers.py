@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from parler_rest.serializers import TranslatableModelSerializer
+from parler_rest.fields import TranslatedFieldsField
+from admin_panel.mixins import *
 from admin_panel.models import *
 
 
@@ -18,36 +21,63 @@ class UserPorfilesSerializers(serializers.ModelSerializer):
 
 
 # Menu Serializers
-class MenuAllSerializers(serializers.ModelSerializer):
+class MenuAllSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
         model = Menu
-        fields = ['id','name',]
+        fields = ['id','name','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en
+        }
 
-class MenuChangeSerializers(serializers.ModelSerializer):
+class MenuChangeSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
         model = Menu
-        fields = ['id','name',]
+        fields = ['id','name','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en
+        }
+    def create(self, validated_data):
+        return Menu.objects.create(**validated_data)
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name',instance.name)
         instance.save() 
         return instance
 
-class SubMenuAllSeriazlizers(serializers.ModelSerializer):
+class SubMenuAllSeriazlizers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubMenu)
     id_menu = MenuAllSerializers(read_only=True)
     class Meta:
         model = SubMenu
-        fields = ['id','name','id_menu',]
+        fields = ['id','name','id_menu','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en
+        }
 
-class SubMenuAllSeriazlizerss(serializers.ModelSerializer):
+class SubMenuAllSeriazlizerss(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubMenu)
     id_menu = MenuAllSerializers(read_only=True)
     class Meta:
         model = SubMenu
-        fields = ['id','name','id_menu',]
+        fields = ['id','name','id_menu','translations']
 
-class SubMenuCRUDSerializers(serializers.ModelSerializer):
+class SubMenuCRUDSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubMenu)
     class Meta:
         model = SubMenu
-        fields = ['id','name','id_menu',]
+        fields = ['id','name','id_menu','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en
+        }
     def create(self, validated_data):
         return SubMenu.objects.create(**validated_data)
     def update(self, instance, validated_data):
