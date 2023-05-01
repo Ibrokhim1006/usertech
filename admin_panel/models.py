@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext as _
 from parler.models import TranslatableModel, TranslatedFields
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 class Menu(TranslatableModel):
     translations = TranslatedFields (
@@ -26,3 +29,22 @@ class SubMenu(TranslatableModel):
         verbose_name_plural = _("SubMenus")
     def __str__(self):
         return self.name
+    
+
+
+class Post(TranslatableModel):
+    translations = TranslatedFields (
+        title = models.CharField(_('title'),max_length=250),
+        content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
+    )
+    img = models.FileField(upload_to='posts',null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = _("Post")
+        verbose_name_plural = _("Posts")
+    def __str__(self):
+        return self.title
+    
+

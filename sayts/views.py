@@ -15,7 +15,7 @@ class MenuAllViewsSayts(APIView):
         return Response(serializers.data,status=status.HTTP_200_OK)
 
 class SubMenuAllViewsSites(APIView):
-    def get(self,rqeuest,format=None):
+    def get(self,request,format=None):
         objects_list = SubMenu.objects.all()
         serializers = SubMenuAllSeriazlizers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
@@ -23,4 +23,16 @@ class SubMenuDeteilesViews(APIView):
     def get(self,request,pk,format=None):
         objects_filter = SubMenu.objects.filter(id=pk)
         serializers = SubMenuAllSeriazlizers(objects_filter,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+
+#==================POST Views=========================================
+class PostAllSitesViews(APIView):
+    def get(self,request,format=None):
+        objects_list = Post.objects.all().order_by('-id')
+        serializers = PostBaseAllSerializers(objects_list,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+class PostDeteileSitesViews(APIView):
+    def get(self,request,pk,format=None):
+        objects_list = Post.objects.filter(id=pk)
+        serializers = PostBaseAllSerializers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)

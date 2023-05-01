@@ -9,4 +9,8 @@ class CategoryAdmin(TranslatableAdmin):
 
 @admin.register(SubMenu)
 class SubMenuAdmin(TranslatableAdmin):
-    list_display = ['name','id_menu']
+    list_display = ['name']
+
+@admin.register(Post)
+class PostAdmin(TranslatableAdmin):
+    list_display = ['title']

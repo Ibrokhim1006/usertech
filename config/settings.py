@@ -32,7 +32,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     
-
+    # ckeditor
+    'ckeditor',
+    'ckeditor_uploader',
     # Library
     'parler',
     'rest_framework',

@@ -20,7 +20,8 @@ class UserPorfilesSerializers(serializers.ModelSerializer):
         fields = ['id','username','first_name','last_name',]
 
 
-# Menu Serializers
+#===================================Menu Serializers============================
+
 class MenuAllSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
@@ -29,9 +30,9 @@ class MenuAllSerializers(TranslatableModelSerializer):
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
-            'en': instance.name_en
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
         }
-
 class MenuChangeSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
@@ -40,7 +41,8 @@ class MenuChangeSerializers(TranslatableModelSerializer):
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
-            'en': instance.name_en
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
         return Menu.objects.create(**validated_data)
@@ -48,7 +50,6 @@ class MenuChangeSerializers(TranslatableModelSerializer):
         instance.name = validated_data.get('name',instance.name)
         instance.save() 
         return instance
-
 class SubMenuAllSeriazlizers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=SubMenu)
     id_menu = MenuAllSerializers(read_only=True)
@@ -58,16 +59,15 @@ class SubMenuAllSeriazlizers(TranslatableModelSerializer):
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
-            'en': instance.name_en
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
         }
-
 class SubMenuAllSeriazlizerss(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=SubMenu)
     id_menu = MenuAllSerializers(read_only=True)
     class Meta:
         model = SubMenu
         fields = ['id','name','id_menu','translations']
-
 class SubMenuCRUDSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=SubMenu)
     class Meta:
@@ -76,12 +76,46 @@ class SubMenuCRUDSerializers(TranslatableModelSerializer):
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
-            'en': instance.name_en
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
         return SubMenu.objects.create(**validated_data)
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name',instance.name)
         instance.id_menu = validated_data.get('id_menu',instance.id_menu)
+        instance.save() 
+        return instance
+    
+
+#==================================Posts Serializers=======================================
+class PostBaseAllSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Post)
+    class Meta:
+        model = Post
+        fields = ['id','title','content','img','date','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
+        }
+class PostBaseCrudSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Post)
+    class Meta:
+        model = Post
+        fields = ['id','title','content','img','date','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
+        }
+    def create(self, validated_data):
+        return Post.objects.create(**validated_data)
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title',instance.title)
+        instance.content = validated_data.get('content',instance.content)
+        instance.img = validated_data.get('img',instance.img)
         instance.save() 
         return instance
