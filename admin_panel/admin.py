@@ -18,3 +18,7 @@ class SubMenuPostsAdmin(TranslatableAdmin,ImportExportModelAdmin):
 @admin.register(Post)
 class PostAdmin(TranslatableAdmin,ImportExportModelAdmin):
     list_display = ['title']
+
+@admin.register(Vacansy)
+class VacansyAdmin(TranslatableAdmin):
+    list_display = ['id','title']

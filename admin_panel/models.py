@@ -63,5 +63,20 @@ class Post(TranslatableModel):
         return self.title
 
 
+
+class Vacansy(TranslatableModel):
+    translations = TranslatedFields(
+        title = models.CharField(_('title'),max_length=250),
+        content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
+    )
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = _("Vacansy")
+        verbose_name_plural = _("Vacansys")
+    def __str__(self):
+        return self.title
+
     
 

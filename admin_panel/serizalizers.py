@@ -126,3 +126,35 @@ class PostBaseCrudSerializers(TranslatableModelSerializer):
         instance.img = validated_data.get('img',instance.img)
         instance.save() 
         return instance
+    
+#==================================Vacansy Serializers=======================================
+
+class VacansyBaseAllSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Vacansy)
+    class Meta:
+        model = Post
+        fields = ['id','title','content','date','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
+        }
+class VacanysBaseCrudSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Vacansy)
+    class Meta:
+        model = Post
+        fields = ['id','title','content','date','translations']
+    def get_text(self, instance):
+        return {
+            'ru': instance.name_ru,
+            'en': instance.name_en,
+            'zh-hant':instance.name_zh_hant,
+        }
+    def create(self, validated_data):
+        return Post.objects.create(**validated_data)
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title',instance.title)
+        instance.content = validated_data.get('content',instance.content)
+        instance.save() 
+        return instance
