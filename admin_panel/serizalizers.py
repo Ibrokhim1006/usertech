@@ -86,7 +86,14 @@ class SubMenuCRUDSerializers(TranslatableModelSerializer):
         instance.id_menu = validated_data.get('id_menu',instance.id_menu)
         instance.save() 
         return instance
-    
+
+#==================================SubMenu Posts Serializers=======================================
+class SubMenuPostSeriazlizers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubMenu)
+    id_menu = MenuAllSerializers(read_only=True)
+    class Meta:
+        model = SubMenu
+        fields = ['id','name','id_menu','translations']
 
 #==================================Posts Serializers=======================================
 class PostBaseAllSerializers(TranslatableModelSerializer):

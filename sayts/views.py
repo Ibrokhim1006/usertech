@@ -24,6 +24,9 @@ class SubMenuDeteilesViews(APIView):
         objects_filter = SubMenu.objects.filter(id=pk)
         serializers = SubMenuAllSeriazlizers(objects_filter,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
+    
+#=================SubMenu POSTS Views================================
+
 
 #==================POST Views=========================================
 class PostAllSitesViews(APIView):

@@ -102,6 +102,21 @@ class SubMenuChangeViews(APIView):
         objects_get.delete()
         return Response({'message':_("Delete success")},status=status.HTTP_200_OK)
 
+#===========================================SubMenu POSTS Views========================
+class SubMenuPostsBaseViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    def get(self,request,format=None):
+        objects_all = SubMenu.objects.all()  
+        serializer = SubMenuAllSeriazlizers(objects_all,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    def post(self,request,format=None):
+        serializers = SubMenuCRUDSerializers(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response({'message':_('Create Sucsess')},status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+
 #==============================================Posts Views============================
 class PostBaseAllViews(APIView):
     render_classes = [UserRenderers]
