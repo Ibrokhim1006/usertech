@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter,OrderingFilter
 from admin_panel.serizalizers import *
 from admin_panel.models import *
+from sayts.serializers import *
 
 
 
@@ -16,8 +17,13 @@ class SubMenuAllViewsSites(APIView):
         return Response(serializers.data,status=status.HTTP_200_OK)
 class SubMenuDeteilesViews(APIView):
     def get(self,request,pk,format=None):
-        objects_filter = Menu.objects.filter(id=pk)
-        serializers = SubMenuAllSeriazlizers(objects_filter,many=True)
+        objects_filter = SubmenuPost.objects.filter(id_menu__id=pk)
+        serializers = PostMenuSerizalizers(objects_filter,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+class MenuPostDeteile(APIView):
+    def get(self,request,pk,format=None):
+        objects = SubmenuPost.objects.filter(id=pk)
+        serializers = PostMenuSerizalizers(objects,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
     
 #=================SubMenu POSTS Views================================
