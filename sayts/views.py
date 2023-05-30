@@ -8,20 +8,15 @@ from admin_panel.serizalizers import *
 from admin_panel.models import *
 
 
-class MenuAllViewsSayts(APIView):
-    def get(self,request,format=None):
-        objects_list = Menu.objects.all()
-        serializers = MenuAllSerializers(objects_list,many=True)
-        return Response(serializers.data,status=status.HTTP_200_OK)
 
 class SubMenuAllViewsSites(APIView):
     def get(self,request,format=None):
-        objects_list = SubMenu.objects.all()
+        objects_list = Menu.objects.all()
         serializers = SubMenuAllSeriazlizers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 class SubMenuDeteilesViews(APIView):
     def get(self,request,pk,format=None):
-        objects_filter = SubMenu.objects.filter(id=pk)
+        objects_filter = Menu.objects.filter(id=pk)
         serializers = SubMenuAllSeriazlizers(objects_filter,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
     

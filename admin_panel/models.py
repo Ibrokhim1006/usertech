@@ -6,27 +6,14 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Menu(TranslatableModel):
-    translations = TranslatedFields (
+    translations = TranslatedFields(
         name = models.CharField(_('name'),max_length=250)
-    ) 
+    )
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date']
         verbose_name = _("Menu")
-        verbose_name_plural = _("Menus")
-    def __str__(self):
-        return self.name
-
-class SubMenu(TranslatableModel):
-    translations = TranslatedFields(
-        name = models.CharField(_('name'),max_length=250)
-    )
-    id_menu = models.ForeignKey(Menu,on_delete=models.CASCADE,null=True,blank=True)
-    date = models.DateTimeField(auto_now_add=True)
-    class Meta:
-        ordering = ['-date']
-        verbose_name = _("SubMenu")
-        verbose_name_plural = _("SubMenus")
+        verbose_name_plural = _("Menu")
     def __str__(self):
         return self.name
     
@@ -35,10 +22,9 @@ class SubmenuPost(TranslatableModel):
         title = models.CharField(_('title'),max_length=250),
         content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
-    id_menu = models.ForeignKey(SubMenu,on_delete=models.CASCADE,null=True,blank=True)
+    id_menu = models.ForeignKey(Menu,on_delete=models.CASCADE,null=True,blank=True)
     img = models.FileField(upload_to='posts',null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         ordering = ['-date']
         verbose_name = _("SubmenuPost")
@@ -54,7 +40,6 @@ class Post(TranslatableModel):
     )
     img = models.FileField(upload_to='posts',null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         ordering = ['-date']
         verbose_name = _("Post")
@@ -70,7 +55,6 @@ class Vacansy(TranslatableModel):
         content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
     date = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         ordering = ['-date']
         verbose_name = _("Vacansy")
@@ -78,5 +62,14 @@ class Vacansy(TranslatableModel):
     def __str__(self):
         return self.title
 
-    
+class VacansiyaPost(models.Model):
+    first_name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
+    phone = models.CharField(max_length=250)
+    e_mail = models.CharField(max_length=250)
+    content = models.TextField()
+    id_vacanys = models.ForeignKey(Vacansy,on_delete=models.CASCADE,null=True,blank=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    def __str__(self) -> str:
+        return self.first_name + ' '+ self.last_name
 

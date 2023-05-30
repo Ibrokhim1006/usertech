@@ -21,8 +21,7 @@ class UserPorfilesSerializers(serializers.ModelSerializer):
 
 
 #===================================Menu Serializers============================
-
-class MenuAllSerializers(TranslatableModelSerializer):
+class SubMenuAllSeriazlizers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
         model = Menu
@@ -33,7 +32,12 @@ class MenuAllSerializers(TranslatableModelSerializer):
             'en': instance.name_en,
             'zh-hant':instance.name_zh_hant,
         }
-class MenuChangeSerializers(TranslatableModelSerializer):
+class SubMenuAllSeriazlizerss(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=Menu)
+    class Meta:
+        model = Menu
+        fields = ['id','name','translations']
+class SubMenuCRUDSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Menu)
     class Meta:
         model = Menu
@@ -50,29 +54,20 @@ class MenuChangeSerializers(TranslatableModelSerializer):
         instance.name = validated_data.get('name',instance.name)
         instance.save() 
         return instance
-class SubMenuAllSeriazlizers(TranslatableModelSerializer):
-    translations = TranslatedFieldsField(shared_model=SubMenu)
-    id_menu = MenuAllSerializers(read_only=True)
+
+#==================================SubMenu Posts Serializers=======================================
+class SubMenuPostSeriazlizers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubmenuPost)
+    id_menu = SubMenuAllSeriazlizers(read_only=True)
     class Meta:
-        model = SubMenu
-        fields = ['id','name','id_menu','translations']
-    def get_text(self, instance):
-        return {
-            'ru': instance.name_ru,
-            'en': instance.name_en,
-            'zh-hant':instance.name_zh_hant,
-        }
-class SubMenuAllSeriazlizerss(TranslatableModelSerializer):
-    translations = TranslatedFieldsField(shared_model=SubMenu)
-    id_menu = MenuAllSerializers(read_only=True)
+        model = SubmenuPost
+        fields = ['id','title','content','img','id_menu','translations']
+
+class SubMenuPostCRUDSerializers(TranslatableModelSerializer):
+    translations = TranslatedFieldsField(shared_model=SubmenuPost)
     class Meta:
-        model = SubMenu
-        fields = ['id','name','id_menu','translations']
-class SubMenuCRUDSerializers(TranslatableModelSerializer):
-    translations = TranslatedFieldsField(shared_model=SubMenu)
-    class Meta:
-        model = SubMenu
-        fields = ['id','name','id_menu','translations']
+        model = SubmenuPost
+        fields = ['id','title','content','img','id_menu','translations']
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
@@ -80,20 +75,14 @@ class SubMenuCRUDSerializers(TranslatableModelSerializer):
             'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
-        return SubMenu.objects.create(**validated_data)
+        return SubmenuPost.objects.create(**validated_data)
     def update(self, instance, validated_data):
-        instance.name = validated_data.get('name',instance.name)
+        instance.title = validated_data.get('title',instance.title)
+        instance.content = validated_data.get('content',instance.content)
         instance.id_menu = validated_data.get('id_menu',instance.id_menu)
+        instance.img = validated_data.get('img',instance.img)
         instance.save() 
         return instance
-
-#==================================SubMenu Posts Serializers=======================================
-class SubMenuPostSeriazlizers(TranslatableModelSerializer):
-    translations = TranslatedFieldsField(shared_model=SubMenu)
-    id_menu = MenuAllSerializers(read_only=True)
-    class Meta:
-        model = SubMenu
-        fields = ['id','name','id_menu','translations']
 
 #==================================Posts Serializers=======================================
 class PostBaseAllSerializers(TranslatableModelSerializer):
