@@ -9,4 +9,8 @@ urlpatterns = [
     #=================POST URLS=============================================
     path('post_all_sites_views/',PostAllSitesViews.as_view()),
     path('post_deteile_sites_views/<int:pk>/',PostDeteileSitesViews.as_view()),
+
+    path('vacansy_all_site_views/',VacansyAllSiteViews.as_view()),
+    path('vakansiya_deteile_views/<int:pk>/',VakansiyaDeteileViews.as_view()),
+    
 ]

@@ -61,13 +61,13 @@ class SubMenuPostSeriazlizers(TranslatableModelSerializer):
     id_menu = SubMenuAllSeriazlizers(read_only=True)
     class Meta:
         model = SubmenuPost
-        fields = ['id','title','content','img','id_menu','translations']
+        fields = ['id','title','content','content_two','img','id_menu','translations']
 
 class SubMenuPostCRUDSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=SubmenuPost)
     class Meta:
         model = SubmenuPost
-        fields = ['id','title','content','img','id_menu','translations']
+        fields = ['id','title','content','content_two','img','id_menu','translations']
     def get_text(self, instance):
         return {
             'ru': instance.name_ru,
@@ -79,6 +79,8 @@ class SubMenuPostCRUDSerializers(TranslatableModelSerializer):
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title',instance.title)
         instance.content = validated_data.get('content',instance.content)
+        instance.content_two = validated_data.get('content_two',instance.content_two)
+
         instance.id_menu = validated_data.get('id_menu',instance.id_menu)
         instance.img = validated_data.get('img',instance.img)
         instance.save() 

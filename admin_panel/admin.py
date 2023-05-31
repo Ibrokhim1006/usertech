@@ -10,7 +10,7 @@ class SubMenuAdmin(TranslatableAdmin,ImportExportModelAdmin):
     list_display = ['name']
 
 @admin.register(SubmenuPost)
-class SubMenuPostsAdmin(TranslatableAdmin):
+class SubMenuPostsAdmin(TranslatableAdmin,ImportExportModelAdmin):
     list_display =['title']
 
 @admin.register(Post)

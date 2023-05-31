@@ -40,3 +40,20 @@ class PostDeteileSitesViews(APIView):
         objects_list = Post.objects.filter(id=pk)
         serializers = PostBaseAllSerializers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
+
+class VacansyAllSiteViews(APIView):
+    def get(self,request,format=None):
+        objects_list = Vacansy.objects.all().order_by('-pk')
+        serializers = VacansySiteAllSerializers(objects_list,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
+    def post(self,request,format=None):
+        serializers = VakansiyaPostSerizalizers(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save(files = request.data.get('files'))
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+class VakansiyaDeteileViews(APIView):
+    def get(self,request,pk,format=None):
+        objects = Vacansy.objects.filter(id=pk)
+        serializers = VacansySiteAllSerializers(objects,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
