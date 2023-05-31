@@ -12,5 +12,6 @@ urlpatterns = [
 
     path('vacansy_all_site_views/',VacansyAllSiteViews.as_view()),
     path('vakansiya_deteile_views/<int:pk>/',VakansiyaDeteileViews.as_view()),
+    path('VakansiyaGet/',VakansiyaGet.as_view()),
     
 ]

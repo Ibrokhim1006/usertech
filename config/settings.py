@@ -241,5 +241,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://192.168.2.43",
-    "http://192.168.2.43:3000"
+    "http://192.168.2.43:3000",
+    "http://5.101.152.59:80",
+    "http://viaavm6y.beget.tech",
 ]

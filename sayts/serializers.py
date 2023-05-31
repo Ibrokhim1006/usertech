@@ -42,4 +42,9 @@ class VakansiyaPostSerizalizers(serializers.ModelSerializer):
     def create(self, validated_data):
         return VacansiyaPost.objects.create(**validated_data)
 
-    
+
+
+class Vakan(serializers.ModelSerializer):
+    class Meta:
+        model = VacansiyaPost
+        fields = ['id','first_name','last_name','phone','e_mail','content','files','id_vacanys',]

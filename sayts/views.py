@@ -57,3 +57,11 @@ class VakansiyaDeteileViews(APIView):
         objects = Vacansy.objects.filter(id=pk)
         serializers = VacansySiteAllSerializers(objects,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
+
+
+
+class VakansiyaGet(APIView):
+    def get(self,request,format=None):
+        objects = VacansiyaPost.objects.all()
+        serializers = Vakan(objects,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)
