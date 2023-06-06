@@ -16,5 +16,5 @@ urlpatterns = [
     path('post_base_change_views/<int:pk>/',PostBaseChangeViews.as_view()),
     #========================Vacanys Urls=============================
     path('vacanys_base_all_views/',VacansyBaseAllViews.as_view()),
-    path('vacanys_base_change_views/',VacanysBaseChangeViews.as_view()),
+    path('vacanys_base_change_views/<int:pk>/',VacanysBaseChangeViews.as_view()),
 ]
