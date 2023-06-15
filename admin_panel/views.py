@@ -160,10 +160,10 @@ class VacanysBaseChangeViews(APIView):
     perrmisson_class = [IsAuthenticated]
     def get(self,request,pk,format=None):
         objects_get = Vacansy.objects.filter(id=pk)
-        serializers = VacanysBaseChangeViews(objects_get,many=True)
+        serializers = VacanysBaseCrudSerializers(objects_get,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)   
     def put(self,request,pk,format=None):
-        serializers = VacanysBaseChangeViews(instance=Vacansy.objects.filter(id=pk)[0],data=request.data,partial =True)
+        serializers = VacanysBaseCrudSerializers(instance=Vacansy.objects.filter(id=pk)[0],data=request.data,partial =True)
         if serializers.is_valid(raise_exception=True):
             serializers.save(img = request.data.get('img'))
             return Response({'message':_("success update")},status=status.HTTP_200_OK)
