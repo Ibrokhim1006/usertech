@@ -124,7 +124,7 @@ class PostBaseCrudSerializers(TranslatableModelSerializer):
 class VacansyBaseAllSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Vacansy)
     class Meta:
-        model = Post
+        model = Vacansy
         fields = ['id','title','content','date','translations']
     def get_text(self, instance):
         return {
@@ -135,7 +135,7 @@ class VacansyBaseAllSerializers(TranslatableModelSerializer):
 class VacanysBaseCrudSerializers(TranslatableModelSerializer):
     translations = TranslatedFieldsField(shared_model=Vacansy)
     class Meta:
-        model = Post
+        model = Vacansy
         fields = ['id','title','content','date','translations']
     def get_text(self, instance):
         return {
@@ -144,7 +144,7 @@ class VacanysBaseCrudSerializers(TranslatableModelSerializer):
             'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
-        return Post.objects.create(**validated_data)
+        return Vacansy.objects.create(**validated_data)
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title',instance.title)
         instance.content = validated_data.get('content',instance.content)
