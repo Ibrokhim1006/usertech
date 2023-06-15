@@ -54,7 +54,7 @@ class SubMenuAllViews(APIView):
     def post(self,request,format=None):
         serializers = SubMenuCRUDSerializers(data=request.data)
         if serializers.is_valid(raise_exception=True):
-            serializers.save()
+            serializers.save(img = request.data.get('img'))
             return Response({'message':_('Create Sucsess')},status=status.HTTP_201_CREATED)
         return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
 class SubMenuChangeViews(APIView):
@@ -67,7 +67,7 @@ class SubMenuChangeViews(APIView):
     def put(self,request,pk,format=None):
         serializers = SubMenuCRUDSerializers(instance=Menu.objects.filter(id=pk)[0],data=request.data,partial =True)
         if serializers.is_valid(raise_exception=True):
-            serializers.save()
+            serializers.save(img = request.data.get('img'))
             return Response({'message':_("success update")},status=status.HTTP_200_OK)
         return Response({'error':_('update error data')},status=status.HTTP_400_BAD_REQUEST)
     def delete(self,request,pk,format=None):

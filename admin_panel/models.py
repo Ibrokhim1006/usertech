@@ -7,8 +7,10 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class Menu(TranslatableModel):
     translations = TranslatedFields(
-        name = models.CharField(_('name'),max_length=250)
+        name = models.CharField(_('name'),max_length=250),
+        content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
+    img = models.FileField(upload_to='menu/',null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date']
