@@ -10,7 +10,7 @@ class Menu(TranslatableModel):
         name = models.CharField(_('name'),max_length=250),
         content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
-    img = models.FileField(upload_to='menu/',null=True,blank=True)
+    img = models.CharField(null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date']
@@ -26,7 +26,7 @@ class SubmenuPost(TranslatableModel):
         content_two = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
     id_menu = models.ForeignKey(Menu,on_delete=models.CASCADE,null=True,blank=True)
-    img = models.FileField(upload_to='posts',null=True,blank=True)
+    img = models.CharField(null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date']
@@ -41,7 +41,7 @@ class Post(TranslatableModel):
         title = models.CharField(_('title'),max_length=250),
         content = RichTextUploadingField(_('content'),default=None,null=True,blank=True)
     )
-    img = models.FileField(upload_to='posts',null=True,blank=True)
+    img = models.CharField(null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date']

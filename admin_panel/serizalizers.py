@@ -144,6 +144,8 @@ class VacanysBaseCrudSerializers(TranslatableModelSerializer):
             'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
+    
+        
         return Vacansy.objects.create(**validated_data)
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title',instance.title)
