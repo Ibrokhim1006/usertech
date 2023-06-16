@@ -2,7 +2,7 @@ from django.contrib import admin
 from parler.admin import TranslatableAdmin
 from import_export.admin import ImportExportActionModelAdmin,ImportExportModelAdmin
 from admin_panel.models import *
-from modeltranslation.admin import TranslationAdmin
+
 
 
 @admin.register(Menu)
