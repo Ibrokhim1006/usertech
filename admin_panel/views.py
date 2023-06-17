@@ -130,10 +130,10 @@ class PostBaseChangeViews(APIView):
         serializers = PostBaseAllSerializers(objects_get,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)   
     def put(self,request,pk,format=None):
-        serializers = PostBaseChangeViews(instance=Post.objects.filter(id=pk)[0],data=request.data,partial =True)
+        serializers = PostBaseCrudSerializers(instance=Post.objects.filter(id=pk)[0],data=request.data,partial =True)
         if serializers.is_valid(raise_exception=True):
             serializers.save(img = request.data.get('img'))
-            return Response({'message':_("success update")},status=status.HTTP_200_OK)
+            return Response(serializers.data,status=status.HTTP_200_OK)
         return Response({'error':_('update error data')},status=status.HTTP_400_BAD_REQUEST)
     def delete(self,request,pk,format=None):
         objects_get = Post.objects.get(id=pk)
