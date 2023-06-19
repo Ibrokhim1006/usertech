@@ -20,7 +20,7 @@ class PostMenuSerizalizers(TranslatableModelSerializer):
     id_menu = MenuSerializers(read_only=True)
     class Meta:
         model = SubmenuPost
-        fields = ['id','title','content','img','id_menu','translations']
+        fields = ['id','title','content','content_two','img','id_menu','translations']
 
 
 class VacansySiteAllSerializers(TranslatableModelSerializer):

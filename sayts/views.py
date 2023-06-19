@@ -7,6 +7,7 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 from admin_panel.serizalizers import *
 from admin_panel.models import *
 from sayts.serializers import *
+from sayts.pagination import *
 
 
 
@@ -16,10 +17,33 @@ class SubMenuAllViewsSites(APIView):
         serializers = SubMenuAllSeriazlizers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 class SubMenuDeteilesViews(APIView):
+    pagination_class = LargeResultsSetPagination
+    serializer_class = PostMenuSerizalizers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
     def get(self,request,pk,format=None):
-        objects_filter = SubmenuPost.objects.filter(id_menu__id=pk)
-        serializers = PostMenuSerizalizers(objects_filter,many=True)
-        return Response(serializers.data,status=status.HTTP_200_OK)
+        instance = SubmenuPost.objects.filter(id_menu__id=pk) 
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 class MenuPostDeteile(APIView):
     def get(self,request,pk,format=None):
         objects = SubmenuPost.objects.filter(id=pk)
@@ -31,10 +55,33 @@ class MenuPostDeteile(APIView):
 
 #==================POST Views=========================================
 class PostAllSitesViews(APIView):
+    pagination_class = LargeResultsSetPagination
+    serializer_class = PostBaseAllSerializers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
     def get(self,request,format=None):
-        objects_list = Post.objects.all().order_by('-id')
-        serializers = PostBaseAllSerializers(objects_list,many=True)
-        return Response(serializers.data,status=status.HTTP_200_OK)
+        instance = Post.objects.all() 
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 class PostDeteileSitesViews(APIView):
     def get(self,request,pk,format=None):
         objects_list = Post.objects.filter(id=pk)

@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
 from django.contrib.auth import logout
 from django.shortcuts import get_object_or_404
+from admin_panel.pagination import *
 from admin_panel.renderers import *
 from admin_panel.models import *
 from admin_panel.serizalizers import *
@@ -77,11 +78,34 @@ class SubMenuChangeViews(APIView):
 
 #===========================================SubMenu POSTS Views========================
 class SubMenuPostsBaseViews(APIView):
+    pagination_class = LargeResultsSetPagination
+    serializer_class = SubMenuPostSeriazlizers
     render_classes = [UserRenderers]
     perrmisson_class = [IsAuthenticated]
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
     def get(self,request,format=None):
-        objects_all = SubmenuPost.objects.all()  
-        serializer = SubMenuPostSeriazlizers(objects_all,many=True)
+        instance = SubmenuPost.objects.all()  
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):
         serializers = SubMenuPostCRUDSerializers(data=request.data)
@@ -112,9 +136,32 @@ class SubMenuPostsCrudViews(APIView):
 class PostBaseAllViews(APIView):
     render_classes = [UserRenderers]
     perrmisson_class = [IsAuthenticated]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = PostBaseAllSerializers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
     def get(self,request,format=None):
-        objects_all = Post.objects.all()  
-        serializer = PostBaseAllSerializers(objects_all,many=True)
+        instance = Post.objects.all()  
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):
         serializers = PostBaseCrudSerializers(data=request.data)
@@ -145,9 +192,32 @@ class PostBaseChangeViews(APIView):
 class VacansyBaseAllViews(APIView):
     render_classes = [UserRenderers]
     perrmisson_class = [IsAuthenticated]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = VacansyBaseAllSerializers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
     def get(self,request,format=None):
-        objects_all = Vacansy.objects.all()  
-        serializer = VacansyBaseAllSerializers(objects_all,many=True)
+        instance = Vacansy.objects.all()  
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):
         serializers = VacanysBaseCrudSerializers(data=request.data)
