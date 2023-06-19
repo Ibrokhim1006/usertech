@@ -49,7 +49,7 @@ class SubMenuAllViews(APIView):
     render_classes = [UserRenderers]
     perrmisson_class = [IsAuthenticated]
     def get(self,request,format=None):
-        objects_all = Menu.objects.all()  
+        objects_all = Menu.objects.all().order_by('pk')  
         serializer = SubMenuAllSeriazlizers(objects_all,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):

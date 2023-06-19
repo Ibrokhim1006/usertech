@@ -13,7 +13,7 @@ from sayts.pagination import *
 
 class SubMenuAllViewsSites(APIView):
     def get(self,request,format=None):
-        objects_list = Menu.objects.all()
+        objects_list = Menu.objects.all().order_by('pk')  
         serializers = SubMenuAllSeriazlizers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
 class SubMenuDeteilesViews(APIView):
@@ -37,7 +37,7 @@ class SubMenuDeteilesViews(APIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data)
     def get(self,request,pk,format=None):
-        instance = SubmenuPost.objects.filter(id_menu__id=pk) 
+        instance = SubmenuPost.objects.filter(id_menu__id=pk).order_by('pk')  
         page = self.paginate_queryset(instance)
         if page is not None:
             serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
@@ -75,7 +75,7 @@ class PostAllSitesViews(APIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data)
     def get(self,request,format=None):
-        instance = Post.objects.all() 
+        instance = Post.objects.all().order_by('pk')  
         page = self.paginate_queryset(instance)
         if page is not None:
             serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
@@ -90,7 +90,7 @@ class PostDeteileSitesViews(APIView):
 
 class VacansyAllSiteViews(APIView):
     def get(self,request,format=None):
-        objects_list = Vacansy.objects.all().order_by('-pk')
+        objects_list = Vacansy.objects.all().order_by('pk')
         serializers = VacansySiteAllSerializers(objects_list,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
     def post(self,request,format=None):
