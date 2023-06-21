@@ -75,3 +75,31 @@ class VacansiyaPost(models.Model):
     def __str__(self) -> str:
         return self.first_name + ' '+ self.last_name
 
+class Application(models.Model):
+    full_name = models.CharField(max_length=250,null=True,blank=True)
+    phone = models.CharField(max_length=250,null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.full_name
+
+class Consultatsiya(models.Model):
+    full_name = models.CharField(max_length=250,null=True,blank=True)
+    phone = models.CharField(max_length=250,null=True,blank=True)
+    content = models.TextField(null=True,blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.full_name
+
+class Forma(models.Model):
+    first_name = models.CharField(max_length=250)
+    last_name = models.CharField(max_length=250)
+    phone = models.CharField(max_length=250)
+    email = models.CharField(max_length=250)
+    price = models.CharField(max_length=250)
+    companiya = models.CharField(max_length=250)
+    about = models.CharField(max_length=250)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    def __str__(self) -> str:
+        return self.first_name + ''+ self.last_name
+

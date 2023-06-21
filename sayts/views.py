@@ -106,9 +106,30 @@ class VakansiyaDeteileViews(APIView):
         return Response(serializers.data,status=status.HTTP_200_OK)
 
 
-
 class VakansiyaGet(APIView):
     def get(self,request,format=None):
         objects = VacansiyaPost.objects.all()
         serializers = Vakan(objects,many=True)
         return Response(serializers.data,status=status.HTTP_200_OK)
+#======================Forma Views=====================================
+class ApplicationPostSayts(APIView):
+    def post(self,request,format=None):
+        serializers = ApplicationSerializersPOst(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+class ConsultatsiyaPostSayts(APIView):
+    def post(self,request,format=None):
+        serializers = ComsultatsiyaSerializersPOst(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+class FormaPostSayts(APIView):
+    def post(self,request,format=None):
+        serializers = FormaSerializersPOst(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response(serializers.data,status=status.HTTP_201_CREATED)
+        return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)

@@ -13,5 +13,9 @@ urlpatterns = [
     path('vacansy_all_site_views/',VacansyAllSiteViews.as_view()),
     path('vakansiya_deteile_views/<int:pk>/',VakansiyaDeteileViews.as_view()),
     path('VakansiyaGet/',VakansiyaGet.as_view()),
+    #===================Forma POST=========================================
+    path('application_post_sayts/',ApplicationPostSayts.as_view()),
+    path('consultatsiya_post_sayts/',ConsultatsiyaPostSayts.as_view()),
+    path('forma_post_sayts/',FormaPostSayts.as_view()),
     
 ]

@@ -144,11 +144,22 @@ class VacanysBaseCrudSerializers(TranslatableModelSerializer):
             'zh-hant':instance.name_zh_hant,
         }
     def create(self, validated_data):
-    
-        
         return Vacansy.objects.create(**validated_data)
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title',instance.title)
         instance.content = validated_data.get('content',instance.content)
         instance.save() 
         return instance
+#==================Forma serizliaers=======================
+class ApplicationSerizliers(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = '__all__'
+class ConsultatsiyaSerizliers(serializers.ModelSerializer):
+    class Meta:
+        model = Consultatsiya
+        fields = '__all__'
+class FormaSerizliers(serializers.ModelSerializer):
+    class Meta:
+        model = Forma
+        fields = '__all__'

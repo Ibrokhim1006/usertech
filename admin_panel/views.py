@@ -243,3 +243,129 @@ class VacanysBaseChangeViews(APIView):
         objects_get.delete()
         return Response({'message':_("Delete success")},status=status.HTTP_200_OK)
 
+#=======================Forma Views===========================================
+class ApplicationBaseAllViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = ApplicationSerizliers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
+    def get(self,request,format=None):
+        instance = Application.objects.all() 
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+class ApplicationDeteileBaseViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    def get(self,request,pk,format=None):
+        objects_get = Application.objects.filter(id=pk)
+        serializers = ApplicationSerizliers(objects_get,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)   
+    def delete(self,request,pk,format=None):
+        objects_get = Application.objects.get(id=pk)
+        objects_get.delete()
+        return Response({'message':_("Delete success")},status=status.HTTP_200_OK)
+
+class ConsultatsiyaBaseAllViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = ConsultatsiyaSerizliers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
+    def get(self,request,format=None):
+        instance = Consultatsiya.objects.all() 
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+class ConsultatsiyaDeteileBaseViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    def get(self,request,pk,format=None):
+        objects_get = Consultatsiya.objects.filter(id=pk)
+        serializers = ConsultatsiyaSerizliers(objects_get,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)   
+    def delete(self,request,pk,format=None):
+        objects_get = Consultatsiya.objects.get(id=pk)
+        objects_get.delete()
+        return Response({'message':_("Delete success")},status=status.HTTP_200_OK)
+
+class FormaBaseAllViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    pagination_class = LargeResultsSetPagination
+    serializer_class = FormaSerizliers
+    @property
+    def paginator(self):
+        if not hasattr(self, '_paginator'):
+            if self.pagination_class is None:
+                self._paginator = None
+            else:
+                self._paginator = self.pagination_class()
+        else:
+            pass
+        return self._paginator
+    def paginate_queryset(self, queryset):
+        if self.paginator is None:
+            return None
+        return self.paginator.paginate_queryset(queryset,self.request, view=self)
+    def get_paginated_response(self, data):
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data)
+    def get(self,request,format=None):
+        instance = Forma.objects.all() 
+        page = self.paginate_queryset(instance)
+        if page is not None:
+            serializer = self.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(instance, many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+class FormaDeteileBaseViews(APIView):
+    render_classes = [UserRenderers]
+    perrmisson_class = [IsAuthenticated]
+    def get(self,request,pk,format=None):
+        objects_get = Forma.objects.filter(id=pk)
+        serializers = FormaSerizliers(objects_get,many=True)
+        return Response(serializers.data,status=status.HTTP_200_OK)   
+    def delete(self,request,pk,format=None):
+        objects_get = Forma.objects.get(id=pk)
+        objects_get.delete()
+        return Response({'message':_("Delete success")},status=status.HTTP_200_OK)

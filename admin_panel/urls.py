@@ -17,4 +17,13 @@ urlpatterns = [
     #========================Vacanys Urls=============================
     path('vacanys_base_all_views/',VacansyBaseAllViews.as_view()),
     path('vacanys_base_change_views/<int:pk>/',VacanysBaseChangeViews.as_view()),
+    #====================Forma Urls==================================
+    path('application_base_all_views/',ApplicationBaseAllViews.as_view()),
+    path('application_deteile_base_views/<int:pk>/',ApplicationDeteileBaseViews.as_view()),
+
+    path('consultatsiya_base_all_views/',ConsultatsiyaBaseAllViews.as_view()),
+    path('consultatsiya_deteile_base_views/<int:pk>/',ConsultatsiyaDeteileBaseViews.as_view()),
+
+    path('forma_base_all_views/',FormaBaseAllViews.as_view()),
+    path('forma_deteile_base_views/<int:pk>/',FormaDeteileBaseViews.as_view()),
 ]

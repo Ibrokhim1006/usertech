@@ -23,3 +23,6 @@ class VacansyAdmin(TranslatableAdmin):
 
 
 admin.site.register(VacansiyaPost)
+admin.site.register(Application)
+admin.site.register(Forma)
+admin.site.register(Consultatsiya)

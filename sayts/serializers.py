@@ -48,3 +48,23 @@ class Vakan(serializers.ModelSerializer):
     class Meta:
         model = VacansiyaPost
         fields = ['id','first_name','last_name','phone','e_mail','content','files','id_vacanys',]
+
+
+class ApplicationSerializersPOst(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = '__all__'
+    def create(self, validated_data):
+        return Application.objects.create(**validated_data)
+class ComsultatsiyaSerializersPOst(serializers.ModelSerializer):
+    class Meta:
+        model = Consultatsiya
+        fields = '__all__'
+    def create(self, validated_data):
+        return Consultatsiya.objects.create(**validated_data)
+class FormaSerializersPOst(serializers.ModelSerializer):
+    class Meta:
+        model = Forma
+        fields = '__all__'
+    def create(self, validated_data):
+        return Forma.objects.create(**validated_data)
